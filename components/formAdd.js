@@ -4,7 +4,6 @@ import { View } from "react-native";
 
 const FormAdd = ({ isCreate, hideModalonParent }) => {
   const [visible, setVisible] = React.useState(isCreate);
-  const [text, setText] = React.useState('');
   const [validate, setValidate] = React.useState([]);
   const [numberPhone, setNumberPhone] = React.useState({
     "number": "",
@@ -13,7 +12,6 @@ const FormAdd = ({ isCreate, hideModalonParent }) => {
   });
 
   const hideModal = () => {
-    console.log('numberPhone', numberPhone);
     const vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
     if(vnf_regex.test(numberPhone.number)){
       hideModalonParent(numberPhone);
@@ -25,10 +23,7 @@ const FormAdd = ({ isCreate, hideModalonParent }) => {
       
       setValidate([...validate, 'Number phone not is incorrect format '])
     }
-    // hideModalonParent(numberPhone);
-    // setVisible(false);
-    // setNumberPhone({...numberPhone, number :'' } )
-    // return numberPhone;
+
   }
 
   const cancelForm = () => {
