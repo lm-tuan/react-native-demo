@@ -2,11 +2,9 @@ import * as React from 'react';
 import { View } from 'react-native';
 import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
 
-
-const DialogComponent = ( ) => {
+const DialogComponent = () => {
   const [visible, setVisible] = React.useState(true);
   const [yes, setYes] = React.useState(false);
-
 
   const yeslAlert = () => {
     setVisible(false);
@@ -17,9 +15,8 @@ const DialogComponent = ( ) => {
     checkYesNo(false);
     setVisible(false);
     setYes(false);
-  } 
+  }
   React.useEffect(() => {
-    // setVisible(isDelete);
   })
 
   return (

@@ -12,77 +12,70 @@ const FormAdd = ({ isCreate, hideModalonParent }) => {
   });
   const hideModal = () => {
     const vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
-    if(vnf_regex.test(numberPhone.number)){
+    if (vnf_regex.test(numberPhone.number)) {
       hideModalonParent(numberPhone);
       setVisible(false);
-      setNumberPhone({...numberPhone, number :'' } )
+      setNumberPhone({ ...numberPhone, number: '' })
       setValidate([]);
       return numberPhone;
-    }else{
-      
+    } else {
       setValidate([...validate, 'Number phone not is incorrect format '])
     }
-
   }
-
   const cancelForm = () => {
     hideModalonParent({});
     setVisible(false);
   }
-
-  const containerStyle = {backgroundColor: 'white', padding: 20};
-
+  const containerStyle = { backgroundColor: 'white', padding: 20 };
   React.useEffect(() => {
     setVisible(isCreate);
   }, [isCreate])
   return (
     <Provider>
       <Portal >
-        <Modal 
-        visible={visible} 
-        onDismiss={false} 
-        contentContainerStyle={containerStyle}
-        style = {{
-            width:"100%",
-            height:"100%",
-            // backgroundColor:"red",
-            zIndex:99
-        }}
+        <Modal
+          visible={visible}
+          onDismiss={false}
+          contentContainerStyle={containerStyle}
+          style={{
+            width: "100%",
+            height: "100%",
+            backgroundColor: "red",
+            zIndex: 99
+          }}
         >
           {
-            validate.length > 0 && 
-            <Text style = {{ color:'red'}}>{validate[0]}</Text>
+            validate.length > 0 &&
+            <Text style={{ color: 'red' }}>{validate[0]}</Text>
           }
           {
-            validate.length === 0 && 
+            validate.length === 0 &&
             <Text>Example Modal.  Click outside this area to dismiss.</Text>
           }
-          
           <TextInput
-            mode = "outlined"
+            mode="outlined"
             label=" example: 0359124552"
             value={numberPhone.number}
-            onChangeText={number => 
-                setNumberPhone({ ...numberPhone, number})
-              }
-            />
-
-          <View style = {{ flexDirection:'row', justifyContent:'space-evenly'}}>
-            <Button 
-            icon="camera" 
-            mode="contained"
-            onPress={hideModal}
-            style = {{ marginTop:10}}
+            onChangeText={number =>
+              setNumberPhone({ ...numberPhone, number })
+            }
+          />
+          <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+            <Button
+              icon="camera"
+              mode="contained"
+              onPress={hideModal}
+              style={{ marginTop: 10 }}
             >
-                  Create
+              Create
             </Button>
-            <Button 
-            icon="camera" 
-            mode="contained"
-            onPress={cancelForm}
-            style = {{ marginTop:10}}
+            <Button
+              icon="camera"
+              mode="contained"
+              onPress={cancelForm}
+              style={{ marginTop: 10 }}
             >
-                  Cannel
+              Cannel
             </Button>
           </View>
         </Modal>
@@ -90,5 +83,4 @@ const FormAdd = ({ isCreate, hideModalonParent }) => {
     </Provider>
   );
 };
-
 export default FormAdd;
