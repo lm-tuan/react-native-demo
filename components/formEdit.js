@@ -114,11 +114,13 @@ const FormEditComponent = ( { isEdit , onEditOrDetail, numberPhone, onUpdate }) 
                 />
            </View>
            <View style = {{ flexDirection:'row', justifyContent:'flex-start', marginTop:10}}>
-                <Button style = {{
-                    marginRight:10
-                }}  icon="camera" mode="contained" onPress={() => onUpdateById(num.id)}>
-                        Update
-                </Button> 
+                {
+                 !mode && <Button style = {{
+                        marginRight:10
+                    }}  icon="camera" mode="contained" onPress={() => onUpdateById(num.id)}>
+                            Update
+                    </Button> 
+                }
                 <Button icon="cancel" mode="contained" onPress={hideModal}>
                         Cannel
                 </Button> 

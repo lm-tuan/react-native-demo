@@ -46,6 +46,8 @@ const  App = () => {
         const { status , data } = result
         if(status === 200){
           setNumberPhone(data)
+          isCreate(false);
+          isEdit(false);
         }
       })
       .catch(err => {
@@ -59,9 +61,9 @@ const  App = () => {
     axios.put(`https://5fed4220595e420017c2c62d.mockapi.io/number_phone/${num.id}`, num )
     .then(result => {
       const { status , data } = result
-      console.log('result', result);
       if(status === 200){
         callApiList();
+
       }
     })
     .catch(err => {
@@ -101,6 +103,7 @@ const  App = () => {
     })
   }
   const hideModal = (numberPhone) => {
+    console.log('numberPhone', numberPhone);
     if(numberPhone.number){
       body = numberPhone;
       axios.post('https://5fed4220595e420017c2c62d.mockapi.io/number_phone',body )
@@ -111,7 +114,7 @@ const  App = () => {
         console.log(err);
       })
     }
-    // setIsCreate(false);
+    setIsCreate(false);
   }
   return (
     
