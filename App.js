@@ -29,6 +29,7 @@ const  App = () => {
           const { status , data } = result
           if(status === 200){
             callApiList();
+            setIsCreate(false);
           }
         })
         .catch(err => {

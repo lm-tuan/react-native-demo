@@ -49,18 +49,18 @@ const DataTableComponent = (props) =>
             }}>
               <IconButton
                   icon="shield-edit"
-                  color={Colors.red500}
+                  color={Colors.blue700}
                   size={15}
                   onPress={() => console.log('Pressed')}
                 />
                 <IconButton
                   icon="remote"
-                  color={Colors.red500}
+                  color={Colors.orange700}
                   size={15}
                   onPress={() => console.log('Pressed')}
                 />
                 <IconButton
-                  icon="window-open"
+                  icon="delete"
                   color={Colors.red500}
                   size={15}
                   onPress={ () => onDelete(num.id)}

@@ -10,7 +10,7 @@ const FormAdd = ({ isCreate, hideModalonParent }) => {
     "descrition": "",
     "isStatus": false
   });
-
+  console.log('isCreate', isCreate);
   const hideModal = () => {
     const vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
     if(vnf_regex.test(numberPhone.number)){
