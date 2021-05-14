@@ -6,20 +6,50 @@ import { Divider , IconButton, Colors, ActivityIndicator, Provider  } from 'reac
 
 // compoment
 import AppBar from './components/appbar';
-import DataTableComponent from './components/dataTable'
-import FormAdd from './components/formAdd'
+import DataTableComponent from './components/dataTable';
+import FormAdd from './components/formAdd';
+import FormEditComponent from './components/formEdit';
 
 
 const  App = () => {
   const [isCreate, setIsCreate] = React.useState(false);
+  const [isEdit, setIsEdit] = React.useState(false);
   
   const [numerPhones , setNumerPhones] = React.useState([]);
   const [loading , setLoading] = React.useState([false]);
+  const [numberPhone, setNumberPhone] = React.useState({
+    "id":"",
+    "number": "",
+    "descrition": "",
+    "isStatus": false
+  });
 
   // call Api
   useEffect(() =>  {
     callApiList();
   }, []);
+
+  const onEditOrDetail = (numberPhone, statusEdit) => {
+    console.log(numberPhone);
+    // console.log(statusEdit);
+    setIsEdit(statusEdit);
+    const { id } = numberPhone
+    if(id) {
+      axios.get(`https://5fed4220595e420017c2c62d.mockapi.io/number_phone/${id}`)
+      .then(result => {
+        const { status , data } = result
+        if(status === 200){
+          setNumberPhone(data)
+        }
+      })
+      .catch(err => {
+        console.log('err', err);
+      })
+    }
+  
+    // setIsEdit(statusEdit);
+    // setNumberPhone(numberPhone)
+  }
 
   const onDeleteParent = (id) => {
 
@@ -64,7 +94,6 @@ const  App = () => {
       })
     }
     // setIsCreate(false);
-    console.log('hideModal on App', numberPhone)
   }
   return (
     
@@ -105,6 +134,8 @@ const  App = () => {
           <DataTableComponent 
             numerPhones = {numerPhones}
             onDeleteParent = {id => onDeleteParent(id)}
+            onEditOrDetail = {( num, statusEdit)  => onEditOrDetail(num, statusEdit)}
+            isEdit = { isEdit }
           />
           <ActivityIndicator 
             animating={loading} 
@@ -122,6 +153,12 @@ const  App = () => {
         isCreate = { isCreate } 
         hideModalonParent = {(numberPhone)=> hideModal(numberPhone) }
         />
+      <FormEditComponent 
+        isEdit = { isEdit}
+        onEditOrDetail = { numberPhone => onEditOrDetail(numberPhone)}
+        numberPhone = { numberPhone }
+      
+      />
     </View>)
 };
 

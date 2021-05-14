@@ -7,13 +7,20 @@ const DataTableComponent = (props) =>
   {
     
     const [visible, setVisible] = React.useState(false);
+    const [visibleEdit, setVisibleEdit] = React.useState(false);
+    // const [ activeEdit, setActiveEdit ] =  React.useState(false);
     const onDelete = (id) => {
       props.onDeleteParent(id);
     } 
     React.useEffect(() => {
-      console.log('useEffect');
       setVisible(props.isDelete);
     }, [ props.isDelete])
+
+    const onPressById = (num) => {
+      props.onEditOrDetail(num,true);
+      setVisibleEdit()
+      // console.log(num);
+    } 
 
     const { numerPhones} = props;
     return (
@@ -31,7 +38,9 @@ const DataTableComponent = (props) =>
           (<DataTable.Row key = {num.id} style= {{
             flexDirection:'row',
             justifyContent:'center'
-          }}  >
+          }}
+          onPress={() => onPressById(num)}
+          >
             
             <DataTable.Cell>{index + 1}</DataTable.Cell>
             <DataTable.Cell numeric>{num.number.substring(0,6) + '...'}</DataTable.Cell>
@@ -45,8 +54,7 @@ const DataTableComponent = (props) =>
                 left:20,
                 
             }}></DataTable.Cell>
-            <DataTable.Cell style = { {
-            }}>
+            <DataTable.Cell >
               <IconButton
                   icon="shield-edit"
                   color={Colors.blue700}
