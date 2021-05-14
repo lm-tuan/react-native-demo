@@ -30,6 +30,7 @@ const FormAdd = ({ isCreate, hideModalonParent }) => {
   React.useEffect(() => {
     setVisible(isCreate);
   }, [isCreate])
+  console.log('form add');
   return (
     <Provider>
       <Portal >
@@ -40,7 +41,6 @@ const FormAdd = ({ isCreate, hideModalonParent }) => {
           style={{
             width: "100%",
             height: "100%",
-            backgroundColor: "red",
             zIndex: 99
           }}
         >
@@ -57,7 +57,10 @@ const FormAdd = ({ isCreate, hideModalonParent }) => {
             label=" example: 0359124552"
             value={numberPhone.number}
             onChangeText={number =>
-              setNumberPhone({ ...numberPhone, number })
+              {
+                console.log('number', number);
+                setNumberPhone({ ...numberPhone, number })
+              }
             }
           />
           <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>

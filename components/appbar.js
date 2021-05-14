@@ -3,13 +3,13 @@ import { Appbar } from 'react-native-paper';
 import { stylesAppbar } from '../assets/css/index.style';
 
 const AppBar = ({ callApiList }) => (
- <Appbar style={stylesAppbar.bottom}>
-   <Appbar.Action
-     icon="home"
-     onPress={() => {
-       console.log('home')
-       callApiList();
-     }}
+  <Appbar style={stylesAppbar.bottom}>
+    <Appbar.Action
+      icon="home"
+      onPress={() => {
+        console.log('home')
+        callApiList();
+      }}
     />
     <Appbar.Action icon="mail" onPress={() => console.log('Pressed mail')} />
     <Appbar.Action icon="label" onPress={() => console.log('Pressed label')} />
@@ -18,7 +18,6 @@ const AppBar = ({ callApiList }) => (
       onPress={() => console.log('Pressed delete')}
     />
   </Appbar>
- );
-
+);
 export default AppBar
 
