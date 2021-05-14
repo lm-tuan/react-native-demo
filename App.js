@@ -13,7 +13,10 @@ import FormEditComponent from './components/formEdit';
 
 const  App = () => {
   const [isCreate, setIsCreate] = React.useState(false);
-  const [isEdit, setIsEdit] = React.useState(false);
+  const [isEdit, setIsEdit] = React.useState({
+    statusEdit: false,
+    mode:""
+  });
   
   const [numerPhones , setNumerPhones] = React.useState([]);
   const [loading , setLoading] = React.useState([false]);
@@ -29,10 +32,13 @@ const  App = () => {
     callApiList();
   }, []);
 
-  const onEditOrDetail = (numberPhone, statusEdit) => {
-    console.log(numberPhone);
+  const onEditOrDetail = (numberPhone, statusEdit, mode) => {
+    console.log(mode);
     // console.log(statusEdit);
-    setIsEdit(statusEdit);
+    setIsEdit({
+      statusEdit: true,
+      mode,
+    });
     const { id } = numberPhone
     if(id) {
       axios.get(`https://5fed4220595e420017c2c62d.mockapi.io/number_phone/${id}`)
@@ -46,9 +52,21 @@ const  App = () => {
         console.log('err', err);
       })
     }
-  
     // setIsEdit(statusEdit);
     // setNumberPhone(numberPhone)
+  }
+  const onUpdate = (num) => {
+    axios.put(`https://5fed4220595e420017c2c62d.mockapi.io/number_phone/${num.id}`, num )
+    .then(result => {
+      const { status , data } = result
+      console.log('result', result);
+      if(status === 200){
+        callApiList();
+      }
+    })
+    .catch(err => {
+      console.log('err', err);
+    })
   }
 
   const onDeleteParent = (id) => {
@@ -134,7 +152,7 @@ const  App = () => {
           <DataTableComponent 
             numerPhones = {numerPhones}
             onDeleteParent = {id => onDeleteParent(id)}
-            onEditOrDetail = {( num, statusEdit)  => onEditOrDetail(num, statusEdit)}
+            onEditOrDetail = {( num, statusEdit, mode)  => onEditOrDetail(num, statusEdit, mode)}
             isEdit = { isEdit }
           />
           <ActivityIndicator 
@@ -157,6 +175,7 @@ const  App = () => {
         isEdit = { isEdit}
         onEditOrDetail = { numberPhone => onEditOrDetail(numberPhone)}
         numberPhone = { numberPhone }
+        onUpdate = { num => onUpdate(num)}
       
       />
     </View>)

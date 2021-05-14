@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Modal, Portal, Text, Button, Provider, TextInput } from 'react-native-paper';
 import { View } from 'react-native';
-const FormEditComponent = ( { isEdit , onEditOrDetail, numberPhone }) => {
+const FormEditComponent = ( { isEdit , onEditOrDetail, numberPhone, onUpdate }) => {
   const [visible, setVisible] = React.useState(false);
   const [text, setText] = React.useState('');
+  const [mode, setMode] = React.useState(false);
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
@@ -15,12 +16,18 @@ const FormEditComponent = ( { isEdit , onEditOrDetail, numberPhone }) => {
   });
 
   const containerStyle = { backgroundColor: 'white', padding: 20 };
-  console.log('numberPhone', numberPhone);
   React.useEffect(() => {
-      setVisible(isEdit);
+      setVisible(isEdit.statusEdit);
       setNum(numberPhone);
+      setMode(isEdit.mode === "DETAIL" ? true : false);
   }, [isEdit, numberPhone])
-  console.log('props', numberPhone);
+
+  const onUpdateById = (id) => {
+    //   console.log('num', num);
+      onUpdate(num)
+      setVisible(false);
+  }
+
   return (
     <Provider>
       <Portal>
@@ -36,10 +43,13 @@ const FormEditComponent = ( { isEdit , onEditOrDetail, numberPhone }) => {
                fontWeight:'bold'
            }}>ID:</Text>  
             <TextInput
+                disabled = {true}
                 mode = "outlined"
                 label="id"
                 value={num.id}
-                onChangeText={text => setText(text)}
+                onChangeText={number => 
+                    setNum({ ...num, number})
+                  }
                 style = {{
                     height:40,
                     width:300
@@ -52,10 +62,13 @@ const FormEditComponent = ( { isEdit , onEditOrDetail, numberPhone }) => {
                fontWeight:'bold'
            }}>Number Phone:</Text>  
             <TextInput
+                disabled = { mode }
                 mode = "outlined"
                 label="number"
                 value={num.number}
-                onChangeText={text => setText(text)}
+                onChangeText={number => 
+                    setNum({ ...num, number})
+                  }
                 style = {{
                     height:40,
                     width:300
@@ -68,10 +81,13 @@ const FormEditComponent = ( { isEdit , onEditOrDetail, numberPhone }) => {
                fontWeight:'bold'
            }}>Description:</Text>  
             <TextInput
+                disabled = { mode }
                 mode = "outlined"
                 label="description"
                 value={num.descrition}
-                onChangeText={text => setText(text)}
+                onChangeText={descrition => 
+                    setNum({ ...num, descrition})
+                  }
                 style = {{
                     height:40,
                     width:300
@@ -84,10 +100,13 @@ const FormEditComponent = ( { isEdit , onEditOrDetail, numberPhone }) => {
                fontWeight:'bold'
            }}>Status:</Text>  
             <TextInput
+                disabled = { mode }
                 mode = "outlined"
                 label="status"
                 value={num.isStatus ? "0" : "1"}
-                onChangeText={text => setText(text)}
+                onChangeText={  isStatus => 
+                    setNum({ ...num, isStatus})
+                  }
                 style = {{
                     height:40,
                     width:300
@@ -97,7 +116,7 @@ const FormEditComponent = ( { isEdit , onEditOrDetail, numberPhone }) => {
            <View style = {{ flexDirection:'row', justifyContent:'flex-start', marginTop:10}}>
                 <Button style = {{
                     marginRight:10
-                }}  icon="camera" mode="contained" onPress={() => console.log('Pressed')}>
+                }}  icon="camera" mode="contained" onPress={() => onUpdateById(num.id)}>
                         Update
                 </Button> 
                 <Button icon="cancel" mode="contained" onPress={hideModal}>
@@ -106,9 +125,6 @@ const FormEditComponent = ( { isEdit , onEditOrDetail, numberPhone }) => {
             </View>
         </Modal>
       </Portal>
-      <Button style={{marginTop: 30}} onPress={showModal}>
-        Show
-      </Button>
     </Provider>
   );
 };

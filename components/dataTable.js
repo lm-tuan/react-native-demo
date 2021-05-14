@@ -3,22 +3,32 @@ import { DataTable, IconButton, Colors, Button, List, Checkbox, Provider, Portal
 import DialogComponent from './../components/dialog';
 import { View } from 'react-native';
 
+const DETAIL = "DETAIL";
+const EDIT = "EDIT";
+
 const DataTableComponent = (props) => 
   {
     
     const [visible, setVisible] = React.useState(false);
     const [visibleEdit, setVisibleEdit] = React.useState(false);
+    const [ mode , setMode] = React.useState(DETAIL);
     // const [ activeEdit, setActiveEdit ] =  React.useState(false);
     const onDelete = (id) => {
       props.onDeleteParent(id);
     } 
     React.useEffect(() => {
       setVisible(props.isDelete);
+      setVisible(props.isDelete);
     }, [ props.isDelete])
 
-    const onPressById = (num) => {
-      props.onEditOrDetail(num,true);
-      setVisibleEdit()
+    const onPressDetailById = (num) => {
+      props.onEditOrDetail(num,true, DETAIL);
+      // setVisibleEdit()
+      // console.log(num);
+    } 
+    const onPressEditById = (num) => {
+      props.onEditOrDetail(num,true, EDIT);
+      // setVisibleEdit()
       // console.log(num);
     } 
 
@@ -39,7 +49,7 @@ const DataTableComponent = (props) =>
             flexDirection:'row',
             justifyContent:'center'
           }}
-          onPress={() => onPressById(num)}
+          onPress={() => onPressDetailById(num)}
           >
             
             <DataTable.Cell>{index + 1}</DataTable.Cell>
@@ -65,7 +75,7 @@ const DataTableComponent = (props) =>
                   icon="remote"
                   color={Colors.orange700}
                   size={15}
-                  onPress={() => console.log('Pressed')}
+                  onPress={() => onPressEditById(num)}
                 />
                 <IconButton
                   icon="delete"
