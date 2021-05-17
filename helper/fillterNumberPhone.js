@@ -1,4 +1,7 @@
 const fillterNumberPhone = (numbers, keySearch) => {
+    if(keySearch === '') {
+        return numbers;
+    }
     const lst = [];
     numbers.forEach((e) => {
         if(e.number.includes(keySearch)){

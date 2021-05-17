@@ -13,6 +13,7 @@ const FormAdd = ({ isCreate, hideModalonParent }) => {
   const hideModal = () => {
     const vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
     if (vnf_regex.test(numberPhone.number)) {
+      console.log('form add');
       hideModalonParent(numberPhone);
       setVisible(false);
       setNumberPhone({ ...numberPhone, number: '' })
@@ -30,7 +31,6 @@ const FormAdd = ({ isCreate, hideModalonParent }) => {
   React.useEffect(() => {
     setVisible(isCreate);
   }, [isCreate])
-  console.log('form add');
   return (
     <Provider>
       <Portal >
@@ -41,7 +41,9 @@ const FormAdd = ({ isCreate, hideModalonParent }) => {
           style={{
             width: "100%",
             height: "100%",
-            zIndex: 99
+            zIndex: 99,
+            position:'relative'
+            
           }}
         >
           {
@@ -57,11 +59,10 @@ const FormAdd = ({ isCreate, hideModalonParent }) => {
             label=" example: 0359124552"
             value={numberPhone.number}
             onChangeText={number =>
-              {
-                console.log('number', number);
                 setNumberPhone({ ...numberPhone, number })
+
               }
-            }
+            autoFocus = {true}
           />
           <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
             <Button

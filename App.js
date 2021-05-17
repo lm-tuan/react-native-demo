@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet ,View,  } from "react-native";
+import { StyleSheet ,View, TextInput  } from "react-native";
 import axios from 'axios';
 
 import { Divider , IconButton, Colors, ActivityIndicator, Provider, Searchbar   } from 'react-native-paper';
@@ -9,7 +9,6 @@ import AppBar from './components/appbar';
 import DataTableComponent from './components/dataTable';
 import FormAdd from './components/formAdd';
 import FormEditComponent from './components/formEdit';
-
 import fillterNumberPhone from './helper/fillterNumberPhone';
 
 const  App = () => {
@@ -18,7 +17,9 @@ const  App = () => {
   const [searchQuery, setSearchQuery] = React.useState('');
   const [numerPhones , setNumerPhones] = React.useState([]);
   const [loading , setLoading] = React.useState([false]);
+  const [number, onChangeNumber] = React.useState(null);
   const [numberPhone, setNumberPhone] = React.useState({
+    
     id:"",
     number: "",
     descrition: "",
@@ -32,6 +33,19 @@ const  App = () => {
   // onChange search
     const onChangeSearch = query => {
       setSearchQuery(query)
+      setTimeout(() => {
+         axios.get(`https://5fed4220595e420017c2c62d.mockapi.io/number_phone`)
+         .then(result => {
+           const { status , data } = result
+           if(status === 200){
+            const numbers = fillterNumberPhone(data, query);
+             setNumerPhones(numbers)
+           }
+         })
+         .catch(err => {
+           console.log('err', err);
+         })
+      }, 1000)
     };
 
   // call Api
@@ -84,17 +98,21 @@ const  App = () => {
   // delete
   const onDeleteParent = (id) => {
       if(id) {
-        axios.delete(`https://5fed4220595e420017c2c62d.mockapi.io/number_phone/${id}`)
-        .then(result => {
-          const { status , data } = result
-          if(status === 200){
-            callApiList();
-            setIsCreate(false);
-          }
-        })
-        .catch(err => {
-          console.log('err', err);
-        })
+       setLoading(true)
+        setTimeout(() => {
+            axios.delete(`https://5fed4220595e420017c2c62d.mockapi.io/number_phone/${id}`)
+               .then(result => {
+                  const { status , data } = result
+                  if(status === 200){
+                     callApiList();
+                     setIsCreate(false);
+                     setLoading(false)
+                  }
+               })
+         .catch(err => {
+            console.log('err', err);
+         })
+        }, 1000)
       }
   }
   // call api
@@ -116,18 +134,22 @@ const  App = () => {
   const hideModal = (numberPhone) => {
     console.log('numberPhone', numberPhone);
     if(numberPhone.number){
+      setLoading(true);
       body = numberPhone;
-      axios.post('https://5fed4220595e420017c2c62d.mockapi.io/number_phone',body )
-      .then(result => {
-        setIsCreate(false);
-        callApiList();
-      }).catch(err => {
-        console.log(err);
-      })
+      setTimeout(() => {
+         axios.post('https://5fed4220595e420017c2c62d.mockapi.io/number_phone',body )
+         .then(result => {
+         setIsCreate(false);
+         callApiList();
+         setLoading(false);
+         }).catch(err => {
+         console.log(err);
+         })
+      } ,1000);
+      
     }
     setIsCreate(false);
   }
-  console.log('app')
   return (
     
     <View style={[styles.container, {
@@ -135,6 +157,22 @@ const  App = () => {
       margin:0,
       padding:0,
     }]}>
+        <ActivityIndicator 
+            animating={loading} 
+            color={Colors.blue800} 
+            size = "large"
+            style ={{
+               //  backgroundColor:'red',
+                position:'absolute',
+                zIndex:100,
+                top:300,
+                width:"100%",
+                
+               //  top:10,
+               //  flexDirection:"column",
+               //  justifyContent:"center"
+        }}
+     />
 
       <View style={{ flex: 0.5 }} >
         <AppBar
@@ -147,9 +185,9 @@ const  App = () => {
         }} >
         <View style = {{ 
           flexDirection:"row",
-          justifyContent:'flex-end',
+          justifyContent:'flex-start',
         }}>
-          <Searchbar
+          {/* <Searchbar
             iconColor = "blue"
             placeholder="Search number"
             onChangeText={onChangeSearch}
@@ -159,11 +197,32 @@ const  App = () => {
               width: 300,
               height:35,
               marginTop:10,
+              opacity :  isCreate || isEdit.statusEdit ? 0 : 1
             }}
             inputStyle = {{
               fontSize:13
             }}
-          />
+          /> */}
+          <TextInput
+        style={{
+         // backgroundColor:'red',
+          width:250,
+          height:40,
+          marginLeft:10,
+          paddingLeft:30,
+          borderRadius:5,
+          shadowColor: "#000",
+          shadowOffset:{
+            width: 0,
+            height: 1,
+          },
+          fontFamily:'Cochin',
+          borderColor: "#20232a",
+                 }}
+        onChangeText={onChangeSearch}
+        value={searchQuery}
+        placeholder="search number"
+      />
           <IconButton
             icon="account-edit-outline"
             color={Colors.red500}
@@ -171,7 +230,7 @@ const  App = () => {
             onPress={() => console.log('Pressed')}
           />
           <IconButton
-            icon="select-all"
+            icon="select"
             color={Colors.red500}
             size={20}
             onPress={() =>{ 
@@ -187,16 +246,18 @@ const  App = () => {
             onEditOrDetail = {( num, statusEdit, mode)  => onEditOrDetail(num, statusEdit, mode)}
             isEdit = { isEdit }
           />
-          <ActivityIndicator 
+          {/* <ActivityIndicator 
             animating={loading} 
             color={Colors.blue800} 
             size = "large"
             style ={{
-                // backgroundColor:'red',
-                position:'relative',
-                top:10,
+                backgroundColor:'red',
+               //  position:'relative',
+               //  top:10,
+                flexDirection:"column",
+                justifyContent:"center"
         }}
-     />
+     /> */}
         </View >
       </View >
       <FormAdd 
@@ -210,6 +271,12 @@ const  App = () => {
         onUpdate = { num => onUpdate(num)}
       
       />
+     <View style = {{
+       flexDirection:'row',
+       justifyContent:'flex-start',
+      //  backgroundColor:'red',
+     }}>
+     </View>
     </View>)
 };
 

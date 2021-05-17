@@ -62,21 +62,21 @@ const DataTableComponent = (props) => {
 
           }}></DataTable.Cell>
           <DataTable.Cell >
-            <IconButton
+            {/* <IconButton
               icon="shield-edit"
               color={Colors.blue700}
               size={15}
               onPress={() => console.log('Pressed')}
-            />
+            /> */}
             <IconButton
-              icon="remote"
+              icon="account-edit-outline"
               color={Colors.orange700}
               size={15}
               onPress={() => onPressEditById(num)}
             />
             <IconButton
               icon="delete"
-              color={Colors.red500}
+              color={Colors.red400}
               size={15}
               onPress={() => onDelete(num.id)}
             />
