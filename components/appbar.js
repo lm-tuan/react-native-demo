@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Appbar } from 'react-native-paper';
 import { stylesAppbar } from '../assets/css/index.style';
 
-const AppBar = ({ callApiList, onPressHome }) => (
+const AppBar = ({ onPressHome }) => (
   <Appbar style={stylesAppbar.bottom}>
     <Appbar.Action
       icon="home"

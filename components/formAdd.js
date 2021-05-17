@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Modal, Portal, Text, Button, Provider, TextInput } from 'react-native-paper';
 import { View } from "react-native";
 
-const FormAdd = ({ isCreate, hideModalonParent }) => {
+const FormAdd = ({ isCreate, onInsertNumber }) => {
   const [visible, setVisible] = React.useState(isCreate);
   const [validate, setValidate] = React.useState([]);
   const [numberPhone, setNumberPhone] = React.useState({
@@ -14,7 +14,7 @@ const FormAdd = ({ isCreate, hideModalonParent }) => {
     const vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
     if (vnf_regex.test(numberPhone.number)) {
       console.log('form add');
-      hideModalonParent(numberPhone);
+      onInsertNumber(numberPhone);
       setVisible(false);
       setNumberPhone({ ...numberPhone, number: '' })
       setValidate([]);
@@ -24,7 +24,7 @@ const FormAdd = ({ isCreate, hideModalonParent }) => {
     }
   }
   const cancelForm = () => {
-    hideModalonParent({});
+    onInsertNumber({});
     setVisible(false);
   }
   const containerStyle = { backgroundColor: 'white', padding: 20 };

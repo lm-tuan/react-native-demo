@@ -23,6 +23,7 @@ const FormEditComponent = ({ isEdit, onEditOrDetail, numberPhone, onUpdate }) =>
     onUpdate(num)
     setVisible(false);
   }
+  console.log('isEdit', isEdit);
   return (
     <Provider>
       <Portal>

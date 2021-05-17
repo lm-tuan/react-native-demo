@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, TextInput } from "react-native";
-import axios from 'axios';
 
 import { Divider, IconButton, Colors, ActivityIndicator, Provider, Searchbar } from 'react-native-paper';
 
@@ -20,7 +19,6 @@ const App = () => {
     const [loading, setLoading] = React.useState([false]);
     const [number, onChangeNumber] = React.useState(null);
     const [numberPhone, setNumberPhone] = React.useState({
-
         id: "",
         number: "",
         descrition: "",
@@ -30,6 +28,12 @@ const App = () => {
         statusEdit: false,
         mode: ""
     });
+
+
+    // call Api
+    useEffect(async () => {
+        callApiList();
+    }, []);
 
     // onChange search
     const onChangeSearch = async query => {
@@ -48,16 +52,9 @@ const App = () => {
         }
     };
 
-    // call Api
-    useEffect(async () => {
-        // const result = await getAllNumbers();
-        // console.log(result);
-        callApiList();
-    }, []);
-
-
     // detail
-    const onEditOrDetail = async (numberPhone, mode) => {
+    const onEdit = async (numberPhone, mode) => {
+        console.log('mode', mode);
         const { id } = numberPhone;
         setIsEdit({
             statusEdit: true,
@@ -80,6 +77,12 @@ const App = () => {
     }
     // update  number
     const onUpdate = async (num) => {
+        console.log('mode', isEdit.mode);
+        setIsEdit({
+            statusEdit: true,
+            mode,
+        });
+        console.log("onUpdate", num);
         const { id } = num;
         setLoading(true);
         try {
@@ -95,11 +98,6 @@ const App = () => {
             console.log('err', err);
         }
     }
-    // search number
-    // const onSearch = () => {
-    //     const numbers = fillterNumberPhone(numerPhones, searchQuery);
-    //     setNumerPhones(numbers);
-    // }
 
     // delete number
     const onDeleteParent = async (id) => {
@@ -138,7 +136,7 @@ const App = () => {
         }
     }
     // insert number
-    const hideModal = async (numberPhone) => {
+    const onInsertNumber = async (numberPhone) => {
         console.log('numberPhone', numberPhone);
         if (numberPhone.number) {
             setLoading(true);
@@ -264,7 +262,7 @@ const App = () => {
                     <DataTableComponent
                         numerPhones={numerPhones}
                         onDeleteParent={id => onDeleteParent(id)}
-                        onEditOrDetail={(num, statusEdit, mode) => onEditOrDetail(num, statusEdit, mode)}
+                        onEdit={(num, statusEdit, mode) => onEdit(num, statusEdit, mode)}
                         isEdit={isEdit}
                     />
                     {/* <ActivityIndicator 
@@ -283,7 +281,7 @@ const App = () => {
             </View >
             <FormAdd
                 isCreate={isCreate}
-                hideModalonParent={(numberPhone) => hideModal(numberPhone)}
+                onInsertNumber={(numberPhone) => onInsertNumber(numberPhone)}
             />
             <FormEditComponent
                 isEdit={isEdit}
