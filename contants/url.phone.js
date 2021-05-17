@@ -1,0 +1,1 @@
+export const URL_PHONE = "https://5fed4220595e420017c2c62d.mockapi.io/number_phone";
