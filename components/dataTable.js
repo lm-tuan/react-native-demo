@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DataTable, IconButton, Colors } from 'react-native-paper';
+import { DataTable, IconButton, Colors, Text } from 'react-native-paper';
 
 const DETAIL = "DETAIL";
 const EDIT = "EDIT";
@@ -40,7 +40,21 @@ const DataTableComponent = (props) => {
         >
           <DataTable.Cell>{index + 1}</DataTable.Cell>
           <DataTable.Cell numeric>{num.number.substring(0, 6) + '...'}</DataTable.Cell>
-          <DataTable.Cell numeric>{num.isStatus ? 0 : 1}</DataTable.Cell>
+          <DataTable.Cell 
+            style = {{
+              marginLeft:25,
+              // backgroundColor:"red",
+              justifyContent:'center',
+              flexDirection:'row'
+            }}
+          >
+            <Text style = {{
+              fontFamily:'sans-serif',
+              fontSize:13,
+              fontWeight:"bold",
+              color: num.isStatus ? "#767b80" : "#318fec"
+            }}> {num.isStatus ? "Paid" : "Buy"}</Text>
+          </DataTable.Cell>
           <DataTable.Cell style={{
             flexDirection: 'row',
             justifyContent: 'flex-end',

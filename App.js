@@ -77,12 +77,10 @@ const App = () => {
     }
     // update  number
     const onUpdate = async (num) => {
-        console.log('mode', isEdit.mode);
         setIsEdit({
             statusEdit: true,
-            mode,
+            mode : isEdit.mode,
         });
-        console.log("onUpdate", num);
         const { id } = num;
         setLoading(true);
         try {
@@ -92,6 +90,10 @@ const App = () => {
                 if(status === 200){
                     callApiList();
                     setLoading(false);
+                    setIsEdit({
+                        statusEdit: false,
+                        mode : "",
+                    });
                 }
             }, 1000)
         } catch (error) {
@@ -163,10 +165,8 @@ const App = () => {
         setLoading(true);
         setTimeout(async () => {
             await callApiList();
-            console.log('onPressHome');
             setLoading(false);
         }, 1000)
-        console.log('onPressHome');
     }
     return (
 
