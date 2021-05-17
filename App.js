@@ -206,22 +206,6 @@ const App = () => {
                     flexDirection: "row",
                     justifyContent: 'flex-start',
                 }}>
-                    {/* <Searchbar
-            iconColor = "blue"
-            placeholder="Search number"
-            onChangeText={onChangeSearch}
-            onIconPress = {onSearch}
-            value={searchQuery}
-            style = {{
-              width: 300,
-              height:35,
-              marginTop:10,
-              opacity :  isCreate || isEdit.statusEdit ? 0 : 1
-            }}
-            inputStyle = {{
-              fontSize:13
-            }}
-          /> */}
                     <TextInput
                         style={{
                             // backgroundColor:'red',
@@ -243,14 +227,14 @@ const App = () => {
                         placeholder="search number"
                     />
                     <IconButton
-                        icon="account-edit-outline"
+                        icon="delete"
                         color={Colors.red500}
                         size={20}
                         onPress={() => console.log('Pressed')}
                     />
                     <IconButton
-                        icon="select"
-                        color={Colors.red500}
+                        icon="numeric-0-box"
+                        color={Colors.blue700}
                         size={20}
                         onPress={() => {
                             setIsCreate(true)
