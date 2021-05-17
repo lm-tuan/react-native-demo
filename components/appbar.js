@@ -2,13 +2,13 @@ import * as React from 'react';
 import { Appbar } from 'react-native-paper';
 import { stylesAppbar } from '../assets/css/index.style';
 
-const AppBar = ({ callApiList }) => (
+const AppBar = ({ callApiList, onPressHome }) => (
   <Appbar style={stylesAppbar.bottom}>
     <Appbar.Action
       icon="home"
       onPress={() => {
         console.log('home')
-        callApiList();
+        onPressHome();
       }}
     />
     <Appbar.Action icon="mail" onPress={() => console.log('Pressed mail')} />

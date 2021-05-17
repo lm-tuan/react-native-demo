@@ -150,6 +150,15 @@ const  App = () => {
     }
     setIsCreate(false);
   }
+  const onPressHome = () => {
+      setLoading(true);
+      setTimeout(async () => {
+            await callApiList();
+            console.log('onPressHome');
+            setLoading(false);
+      }, 1000)
+     console.log('onPressHome');
+  }
   return (
     
     <View style={[styles.container, {
@@ -177,6 +186,7 @@ const  App = () => {
       <View style={{ flex: 0.5 }} >
         <AppBar
           callApiList = { callApiList }
+          onPressHome = {onPressHome}
           />
       </View >
       <View style={{ 

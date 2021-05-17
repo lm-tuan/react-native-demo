@@ -6,16 +6,16 @@ const EDIT = "EDIT";
 
 const DataTableComponent = (props) => {
 
-  const [visible, setVisible] = React.useState(false);
-  const [visibleEdit, setVisibleEdit] = React.useState(false);
-  const [mode, setMode] = React.useState(DETAIL);
+  //  const [visible, setVisible] = React.useState(false);
+  // const [visibleEdit, setVisibleEdit] = React.useState(false);
+  // const [mode, setMode] = React.useState(DETAIL);
   // const [ activeEdit, setActiveEdit ] =  React.useState(false);
   const onDelete = (id) => {
     props.onDeleteParent(id);
   }
   React.useEffect(() => {
-    setVisible(props.isDelete);
-    setVisible(props.isDelete);
+    // setVisible(props.isDelete);
+    // setVisible(props.isDelete);
   }, [props.isDelete])
 
   const onPressDetailById = (num) => {
