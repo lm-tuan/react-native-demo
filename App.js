@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, TextInput } from "react-native";
-
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Divider, IconButton, Colors, ActivityIndicator, Provider, Searchbar } from 'react-native-paper';
 
 // compoment
@@ -17,7 +17,6 @@ const App = () => {
     const [searchQuery, setSearchQuery] = React.useState('');
     const [numerPhones, setNumerPhones] = React.useState([]);
     const [loading, setLoading] = React.useState([false]);
-    const [number, onChangeNumber] = React.useState(null);
     const [numberPhone, setNumberPhone] = React.useState({
         id: "",
         number: "",
@@ -34,7 +33,6 @@ const App = () => {
     useEffect(async () => {
         callApiList();
     }, []);
-
     // onChange search
     const onChangeSearch = async query => {
         setSearchQuery(query)
@@ -131,7 +129,7 @@ const App = () => {
                     setNumerPhones(data);
                     setLoading(false)
                 }
-            }, 1000)
+            }, 100)
         } catch (error) {
             console.log('err', err);
             setLoading(false)

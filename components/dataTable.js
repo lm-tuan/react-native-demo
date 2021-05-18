@@ -3,8 +3,26 @@ import { DataTable, IconButton, Colors, Text } from 'react-native-paper';
 
 const DETAIL = "DETAIL";
 const EDIT = "EDIT";
+const itemsPerPage = 3;
 
 const DataTableComponent = (props) => {
+  const [page, setPage] = React.useState(0);
+  const [numbers, setNumbers] = React.useState([]);
+
+  const from = page * itemsPerPage;
+  const to = (page  + 1) * itemsPerPage;
+
+  React.useEffect(() => {
+    setNumbers(props.numerPhones);
+    // setMumbers(props.numerPhones)
+    const indexOfLastNumber = (page + 1 ) * itemsPerPage;
+    const indexOfFirstNumber = indexOfLastNumber - itemsPerPage;
+    const currentNumbers = props.numerPhones.slice(indexOfFirstNumber, indexOfLastNumber);
+    // setPage(page + 1);
+    console.log('page1', page)
+    setNumbers(currentNumbers)
+        
+  }, [props.numerPhones])
 
   const onDelete = (id) => {
     props.onDeleteParent(id);
@@ -19,6 +37,7 @@ const DataTableComponent = (props) => {
     props.onEdit(num, EDIT);
   }
 
+
   const { numerPhones } = props;
   return (
     <DataTable>
@@ -30,8 +49,8 @@ const DataTableComponent = (props) => {
 
       </DataTable.Header>
       {
-        numerPhones.length > 0 &&
-        numerPhones.map((num, index) =>
+        numbers.length > 0 &&
+        numbers.map((num, index) =>
         (<DataTable.Row key={num.id} style={{
           flexDirection: 'row',
           justifyContent: 'center'
@@ -79,7 +98,21 @@ const DataTableComponent = (props) => {
           </DataTable.Cell>
         </DataTable.Row>))
       }
-      <DataTable.Pagination
+     <DataTable.Pagination
+        page={page}
+        numberOfPages={Math.floor(props.numerPhones.length / itemsPerPage) + 1}
+        onPageChange={page =>{
+        const indexOfLastNumber = (page + 1 ) * itemsPerPage;
+        const indexOfFirstNumber = indexOfLastNumber - itemsPerPage;
+        const currentNumbers = props.numerPhones.slice(indexOfFirstNumber, indexOfLastNumber);
+        console.log('props.numerPhones', props.numerPhones)
+        console.log('page2', page)
+        console.log('currentNumbers', currentNumbers)
+        setPage(page);
+        setNumbers(currentNumbers)
+        
+        }}
+        label={`${from + 1}-${to} of ${props.numerPhones.length}`}
       />
     </DataTable>
   )
