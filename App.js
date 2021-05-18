@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, TextInput } from "react-native";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { Divider, IconButton, Colors, ActivityIndicator, Provider, Searchbar } from 'react-native-paper';
+import { Divider, IconButton, Colors, ActivityIndicator, Provider, Button } from 'react-native-paper';
 
 // compoment
 import AppBar from './components/appbar';
@@ -9,11 +9,13 @@ import DataTableComponent from './components/dataTable';
 import FormAdd from './components/formAdd';
 import FormEditComponent from './components/formEdit';
 import fillterNumberPhone from './helper/fillterNumberPhone';
-import { getAllNumbers, getNumberById, insertNumber, editNumberById, deleteNumberById } from './services/phone.api'
+import { getAllNumbers, getNumberById, insertNumber, editNumberById, deleteNumberById } from './services/phone.api';
+import FormAddMultiple from './components/formAddMultiple  ';
 
 const App = () => {
     // set state
     const [isCreate, setIsCreate] = React.useState(false);
+    const [isCreateMut, setIsCreateMut] = React.useState(false);
     const [searchQuery, setSearchQuery] = React.useState('');
     const [numerPhones, setNumerPhones] = React.useState([]);
     const [loading, setLoading] = React.useState([false]);
@@ -64,6 +66,7 @@ const App = () => {
                 setTimeout(() => {
                     const { status, data } = response;
                     if (status === 200) {
+                        setSearchQuery('');
                         setNumberPhone(data)
                         setIsCreate(false);
                     }
@@ -86,6 +89,7 @@ const App = () => {
             setTimeout(() => {
                 const { status, data } = response;
                 if(status === 200){
+                    setSearchQuery('');
                     callApiList();
                     setLoading(false);
                     setIsEdit({
@@ -108,6 +112,7 @@ const App = () => {
                 setTimeout(() => {
                     const { status } = response
                     if (status === 200) {
+                        setSearchQuery('');
                         callApiList();
                         setIsCreate(false);
                         setLoading(false)
@@ -146,6 +151,7 @@ const App = () => {
                 setTimeout(() => {
                     const { status } = response;
                     if (status === 201) {
+                        setSearchQuery('');
                         setIsCreate(false);
                         callApiList();
                         setLoading(false);
@@ -158,6 +164,31 @@ const App = () => {
             }
         }
         setIsCreate(false);
+    }
+    // insert number mut
+    const onInsertNumberMut = async (numberPhones) => {
+        console.log('numberPhones', numberPhones);
+        if (numberPhone.number) {
+            setLoading(true);
+            const body = numberPhone;
+            try {
+                const response = await insertNumber(body);
+                setTimeout(() => {
+                    const { status } = response;
+                    if (status === 201) {
+                        setSearchQuery('');
+                        setIsCreateMut(false);
+                        callApiList();
+                        setLoading(false);
+                    }
+                }, 1000)
+            } catch (error) {
+                console.log(err);
+                setLoading(false);
+                setIsCreateMut(false);
+            }
+        }
+        setIsCreateMut(false);
     }
     const onPressHome = () => {
         setLoading(true);
@@ -231,11 +262,24 @@ const App = () => {
                         onPress={() => console.log('Pressed')}
                     />
                     <IconButton
-                        icon="numeric-0-box"
+                        icon={require('./assets/images/insert.png')}
                         color={Colors.blue700}
                         size={20}
                         onPress={() => {
                             setIsCreate(true)
+                        }}
+                    />
+                     <IconButton
+                        icon={require('./assets/images/insert_mut_2.png')}
+                        color={Colors.blue700}
+                        size={25}
+                        onPress={() => {
+                            // setIsCreate(true)
+                            setIsCreateMut(true);
+                        }}
+                        style = {{
+                            // backgroundColor:'red',
+                            marginTop:4
                         }}
                     />
                 </View>
@@ -264,6 +308,10 @@ const App = () => {
             <FormAdd
                 isCreate={isCreate}
                 onInsertNumber={(numberPhone) => onInsertNumber(numberPhone)}
+            />
+            <FormAddMultiple
+                isCreateMut={isCreateMut}
+                onInsertNumberMut={(numberPhones) => onInsertNumberMut(numberPhones)}
             />
             <FormEditComponent
                 isEdit={isEdit}
