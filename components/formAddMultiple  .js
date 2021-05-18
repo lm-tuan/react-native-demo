@@ -35,6 +35,7 @@ const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut }) => {
   const cancelForm = () => {
     onInsertNumberMut({});
     setVisible(false);
+    setValidate([]);
   }
   const containerStyle = { backgroundColor: 'white', padding: 20 };
   React.useEffect(() => {
@@ -147,20 +148,51 @@ const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut }) => {
               </Card.Content>
             </Card>
           </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
             <Button
-              icon="camera"
+              // icon="camera"
               mode="contained"
               onPress={hideModal}
               style={{ marginTop: 10 }}
+              contentStyle = {{
+                // width:40,
+                height:30,
+                fontSize:10,
+                // marginLeft:50,
+                // flexDirection: 'row-reverse',
+                fontSize:12,
+                width:90,
+                marginTop:3
+              
+               }}
+               labelStyle = {{
+                fontSize:12,
+                // backgroundColor:'red',
+                height:20,
+                marginRight:5
+               }}
             >
-              Save
+              Save all
             </Button>
             <Button
-              icon="camera"
+              // icon="camera"
               mode="contained"
               onPress={cancelForm}
-              style={{ marginTop: 10 }}
+              style={{ marginTop: 10, marginLeft: 10 }}
+              contentStyle = {{
+                // width:40,
+                height:30,
+                fontSize:10,
+                width:90,
+                // marginLeft:50,
+                // flexDirection: 'row-reverse',
+                marginTop:3
+              
+               }}
+               labelStyle = {{
+                fontSize:12,
+                height:20,
+               }}
             >
               Cannel
             </Button>
