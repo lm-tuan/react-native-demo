@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Modal, Portal, Text, Button, Provider, TextInput, Card, Colors, Title, Paragraph, IconButton } from 'react-native-paper';
 import { View } from "react-native";
-import { v4 as uuidv4 } from 'uuid';
+import uuid from 'react-native-uuid';
 
 const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut }) => {
   const [visible, setVisible] = React.useState(isCreateMut);
-  const [validate, setValidate] = React.useState(false);
+  const [validate, setValidate] = React.useState([]);
   const [numberPhone, setNumberPhone] = React.useState({
+    "id":"",
     "number": "",
     "descrition": "",
     "isStatus": false
@@ -22,7 +23,7 @@ const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut }) => {
     const vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
     if (vnf_regex.test(numberPhone.number)) {
       console.log('form add');
-      onInsertNumberMut(numberPhones);
+      onInsertNumberMut(numbers);
       setVisible(false);
       setNumberPhone({ ...numberPhone, number: '' })
       setValidate([]);
@@ -43,28 +44,38 @@ const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut }) => {
   // Process
   
   // Remove
-  const onRemoveNum= (num) => {
-    
-    console.log("num", num);
+  const onRemoveNum= (id) => {
+    let index = 0;
+     numbers.forEach((num, idex) => {
+      if(num.id === id) {
+        index = idex;
+      }
+    })
+    setNumbers([
+      ...numbers.slice(0, index),
+      ...numbers.slice(index + 1)
+    ])
   }
 
   // Add number
   const onInsertNum = () => {
-    console.log("num", numberPhone);
+    const vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+    if (vnf_regex.test(numberPhone.number)) {
+      const id = uuid.v4();
+      const num = numberPhone;
+      num.id = id;
+      setNumberPhone({ ...numberPhone, number: ''})
+      setNumbers([...numbers, num]);
+      setValidate([]);
+      return numberPhone;
+    } else {
+      setValidate([...validate, 'Number phone not is incorrect format '])
+    }
+    
+    // numberPhone.number = "";
+    // console.log("uuidv4()", uuidv4());
   }
-  const lst = numbers.map((num, index)=> (
-  <View key = {{index}} style = {{ flexDirection:'row', justifyContent:'space-between' }}>
-      <Text 
-      style = {{ marginTop: 10, fontFamily:'Lato-Black'}}>
-        { num.id}
-      </Text>
-      <IconButton
-        icon={require('../assets/images/times.png')}
-        color={Colors.red500}
-        size={20}
-        onPress={() => onRemoveNum}
-      />
-    </View>))
+
 
   return (
     <Provider>
@@ -81,30 +92,10 @@ const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut }) => {
             // backgroundColor:'red'
           }}
         >
-          {/* {
-            validate.length > 0 &&
-            <Text style={{ color: 'red' }}>{validate[0]}</Text>
-          }
-          {
-            validate.length === 0 &&
-            <Text>Example Modal.  Click outside this area to dismiss.</Text>
-          } */}
           <View> 
             <Card>
               <Card.Content style = {{ height: "auto"}}>
                 <Title style = {{ fontSize: 13}}>List number can insert</Title>
-                {/* <View style = {{ flexDirection:'row', justifyContent:'space-between' }}>
-                    <Text 
-                    style = {{ marginTop: 10, fontFamily:'Lato-Black'}}>
-                      fdff
-                    </Text>
-                    <IconButton
-                      icon={require('../assets/images/times.png')}
-                      color={Colors.red500}
-                      size={20}
-                      onPress={() => onRemoveNum}
-                    />
-                </View>) */}
                 {
                   numbers.length > 0 && numbers.map((num, index) => 
                     <View key = {index} style = {{ flexDirection:'row', justifyContent:'space-between' }}>
@@ -116,35 +107,42 @@ const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut }) => {
                         icon={require('../assets/images/times.png')}
                         color={Colors.red500}
                         size={20}
-                        onPress={() => onRemoveNum}
+                        onPress={() => onRemoveNum(num.id)}
                       />
                     </View>
                     
                     )
                 }
-                <View style = {{ flexDirection:'row', justifyContent:'space-between'}}>
-                <TextInput
-                    style = {{
-                      height:40,
-                      width:200,
-                      fontSize:13
-                    }}
-                    mode="outlined"
-                    label=" example: 0359124552"
-                    value={numberPhone.number}
-                    onChangeText={number =>
-                        setNumberPhone({ ...numberPhone, number })
-
-                      }
-                    autoFocus = {true}
-                  />
-                  <IconButton
-                    icon={require('../assets/images/add.png')}
-                    color={Colors.red500}
-                    size={30}
-                    onPress={() => onInsertNum}
-                    style = {{ marginRight: 100}}
-                  />
+                <View style = {{ flexDirection:'column', justifyContent:'space-between'}}>
+                {
+                  validate.length > 0 &&
+                  <Text style={{ color: 'red' }}>{validate[0]}</Text>
+                }
+                  <View style = {{ flexDirection:'row', justifyContent:'space-between'}}>
+                    <TextInput
+                        style = {{
+                          height:40,
+                          width:200,
+                          fontSize:13
+                        }}
+                        mode="outlined"
+                        label=" example: 0359124552"
+                        value={numberPhone.number}
+                        onChangeText={number => {
+                              setValidate([]);
+                              setNumberPhone({ ...numberPhone, number })
+                            }
+                          }
+                        autoFocus = {true}
+                      />
+                    <IconButton
+                      icon={require('../assets/images/add.png')}
+                      color={Colors.red500}
+                      size={30}
+                      onPress={onInsertNum}
+                      style = {{ marginRight: 100}}
+                    />
+                </View>
                 </View>
               </Card.Content>
             </Card>
