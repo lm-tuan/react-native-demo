@@ -3,7 +3,7 @@ import { DataTable, IconButton, Colors, Text } from 'react-native-paper';
 
 const DETAIL = "DETAIL";
 const EDIT = "EDIT";
-const itemsPerPage = 3;
+const itemsPerPage = 5;
 
 const DataTableComponent = (props) => {
   const [page, setPage] = React.useState(0);
@@ -14,12 +14,9 @@ const DataTableComponent = (props) => {
 
   React.useEffect(() => {
     setNumbers(props.numerPhones);
-    // setMumbers(props.numerPhones)
     const indexOfLastNumber = (page + 1 ) * itemsPerPage;
     const indexOfFirstNumber = indexOfLastNumber - itemsPerPage;
     const currentNumbers = props.numerPhones.slice(indexOfFirstNumber, indexOfLastNumber);
-    // setPage(page + 1);
-    console.log('page1', page)
     setNumbers(currentNumbers)
         
   }, [props.numerPhones])
@@ -57,7 +54,7 @@ const DataTableComponent = (props) => {
         }}
           onPress={() => onPressDetailById(num)}
         >
-          <DataTable.Cell>{index + 1}</DataTable.Cell>
+          <DataTable.Cell>{num.id}</DataTable.Cell>
           <DataTable.Cell numeric>{num.number.substring(0, 6) + '...'}</DataTable.Cell>
           <DataTable.Cell 
             style = {{
@@ -105,12 +102,8 @@ const DataTableComponent = (props) => {
         const indexOfLastNumber = (page + 1 ) * itemsPerPage;
         const indexOfFirstNumber = indexOfLastNumber - itemsPerPage;
         const currentNumbers = props.numerPhones.slice(indexOfFirstNumber, indexOfLastNumber);
-        console.log('props.numerPhones', props.numerPhones)
-        console.log('page2', page)
-        console.log('currentNumbers', currentNumbers)
         setPage(page);
         setNumbers(currentNumbers)
-        
         }}
         label={`${from + 1}-${to} of ${props.numerPhones.length}`}
       />
