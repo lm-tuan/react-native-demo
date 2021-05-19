@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DataTable, IconButton, Colors, Text } from 'react-native-paper';
+import { DataTable, IconButton, Colors, Text, Checkbox } from 'react-native-paper';
 
 const DETAIL = "DETAIL";
 const EDIT = "EDIT";
@@ -8,6 +8,7 @@ const itemsPerPage = 5;
 const DataTableComponent = (props) => {
   const [page, setPage] = React.useState(0);
   const [numbers, setNumbers] = React.useState([]);
+  const [checked, setChecked] = React.useState(false);
 
   const from = page * itemsPerPage;
   const to = (page  + 1) * itemsPerPage;
@@ -38,7 +39,20 @@ const DataTableComponent = (props) => {
   const { numerPhones } = props;
   return (
     <DataTable>
-      <DataTable.Header  >
+      <DataTable.Header>
+        <DataTable.Title style ={{
+          // backgroundColor:'red',
+          marginTop:-5,
+          justifyContent:'center',
+          marginLeft:2
+        }}> 
+          <Checkbox
+            status={checked ? 'checked' : 'unchecked'}
+            onPress={() => {
+              setChecked(!checked);
+            }}
+          />
+        </DataTable.Title>
         <DataTable.Title>No.</DataTable.Title>
         <DataTable.Title >Number</DataTable.Title>
         <DataTable.Title >Status</DataTable.Title>
@@ -50,10 +64,20 @@ const DataTableComponent = (props) => {
         numbers.map((num, index) =>
         (<DataTable.Row key={index + 3} style={{
           flexDirection: 'row',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          marginLeft:20,
+          // backgroundColor:"red"
         }}
           onPress={() => onPressDetailById(num)}
         >
+          <DataTable.Cell>
+            <Checkbox
+              status={checked ? 'checked' : 'unchecked'}
+              onPress={() => {
+                setChecked(!checked);
+              }}
+            />
+          </DataTable.Cell>
           <DataTable.Cell>{num.id}</DataTable.Cell>
           <DataTable.Cell numeric>{num.number.substring(0, 6) + '...'}</DataTable.Cell>
           <DataTable.Cell 
