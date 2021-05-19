@@ -96,6 +96,66 @@ const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut }) => {
           <View> 
             <Card>
               <Card.Content style = {{ height: "auto"}}>
+              <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+                <Button
+                  // icon="camera"
+                  mode="contained"
+                  onPress={hideModal}
+                  style={{ marginTop: 10 }}
+                  contentStyle = {{
+                    // width:40,
+                    height:30,
+                    fontSize:10,
+                    // marginLeft:50,
+                    // flexDirection: 'row-reverse',
+                    width:90,
+                    marginTop:3,
+                    width:30,
+                  
+                  }}
+                  labelStyle = {{
+                    fontSize:10,
+                    // backgroundColor:'red',
+                    height:20,
+                    marginRight:5,
+                    width:75,
+                    paddingLeft:20,
+                  }}
+                >
+                  Save all
+                </Button>
+                <Button
+                  // icon="camera"
+                  color = { Colors.orange700}
+                  mode="contained"
+                  onPress={cancelForm}
+                  style={{ marginTop: 10, marginLeft: 10 }}
+                  contentStyle = {{
+                    height:30,
+                    fontSize:10,
+                    // marginLeft:50,
+                    // flexDirection: 'row-reverse',
+                    width:90,
+                    marginTop:3,
+                    width:30,
+                  
+                  }}
+                  labelStyle = {{
+                    fontSize:10,
+                    // backgroundColor:'red',
+                    height:20,
+                    marginRight:5,
+                    width:70,
+                    paddingLeft:17,
+                    // margin:'auto'
+                    // textAlign:'center'
+                    color: Colors.white,
+                    fontWeight:'bold',
+                  }}
+                >
+                  Cancel
+                </Button>
+              </View>
                 <Title style = {{ fontSize: 13}}>List number can insert</Title>
                 {
                   numbers.length > 0 && numbers.map((num, index) => 
@@ -148,7 +208,7 @@ const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut }) => {
               </Card.Content>
             </Card>
           </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+          {/* <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
             <Button
               // icon="camera"
               mode="contained"
@@ -196,7 +256,7 @@ const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut }) => {
             >
               Cannel
             </Button>
-          </View>
+          </View> */}
         </Modal>
       </Portal>
     </Provider>
