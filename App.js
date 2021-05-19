@@ -11,6 +11,7 @@ import FormEditComponent from './components/formEdit';
 import fillterNumberPhone from './helper/fillterNumberPhone';
 import { getAllNumbers, getNumberById, insertNumber, editNumberById, deleteNumberById, insertMultipleNumber } from './services/phone.api';
 import FormAddMultiple from './components/formAddMultiple  ';
+import { createIconSetFromFontello } from "react-native-vector-icons";
 
 const App = () => {
     // set state
@@ -54,7 +55,6 @@ const App = () => {
 
     // detail
     const onEdit = async (numberPhone, mode) => {
-        console.log('mode', mode);
         const { id } = numberPhone;
         setIsEdit({
             statusEdit: true,
@@ -142,7 +142,6 @@ const App = () => {
     }
     // insert number
     const onInsertNumber = async (numberPhone) => {
-        console.log('numberPhone', numberPhone);
         if (numberPhone.number) {
             setLoading(true);
             const body = numberPhone;
@@ -165,30 +164,34 @@ const App = () => {
         }
         setIsCreate(false);
     }
+    const cannelInsertNumberMut = () => {
+        setIsCreateMut(false);
+    }
     // insert number mut
     const onInsertNumberMut = async (numberPhones) => {
-        console.log('numberPhones', numberPhones);
-        if (numberPhone.number) {
+        if(numberPhones.length === 0 ) {
+            setIsCreateMut(true);
+        }
+        if (numberPhones.length > 0  && Array.isArray(numberPhones)) {
             setLoading(true);
-            const body = numberPhone;
             try {
-                const response = await insertNumber(body);
+                const response = await insertMultipleNumber(numberPhones);
                 setTimeout(() => {
-                    const { status } = response;
-                    if (status === 201) {
+                    if(response.length > 0){
                         setSearchQuery('');
                         setIsCreateMut(false);
                         callApiList();
                         setLoading(false);
                     }
+                    console.log('response', response);
                 }, 1000)
             } catch (error) {
-                console.log(err);
+                console.log(error);
                 setLoading(false);
                 setIsCreateMut(false);
             }
         }
-        setIsCreateMut(false);
+        // setIsCreateMut(false);
     }
     const onPressHome = () => {
         setLoading(true);
@@ -312,6 +315,7 @@ const App = () => {
             <FormAddMultiple
                 isCreateMut={isCreateMut}
                 onInsertNumberMut={(numberPhones) => onInsertNumberMut(numberPhones)}
+                cannelInsertNumberMut  = { cannelInsertNumberMut }
             />
             <FormEditComponent
                 isEdit={isEdit}

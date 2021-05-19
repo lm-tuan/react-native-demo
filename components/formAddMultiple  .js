@@ -3,7 +3,7 @@ import { Modal, Portal, Text, Button, Provider, TextInput, Card, Colors, Title, 
 import { View } from "react-native";
 import uuid from 'react-native-uuid';
 
-const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut }) => {
+const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut, cannelInsertNumberMut }) => {
   const [visible, setVisible] = React.useState(isCreateMut);
   const [validate, setValidate] = React.useState([]);
   const [numberPhone, setNumberPhone] = React.useState({
@@ -19,22 +19,10 @@ const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut }) => {
     //   "isStatus": false
     // }
   ]);
-  const hideModal = () => {
-    const vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
-    if (vnf_regex.test(numberPhone.number)) {
-      console.log('form add');
-      onInsertNumberMut(numbers);
-      setVisible(false);
-      setNumberPhone({ ...numberPhone, number: '' })
-      setValidate([]);
-      return numberPhone;
-    } else {
-      setValidate([...validate, 'Number phone not is incorrect format '])
-    }
-  }
+
   const cancelForm = () => {
-    onInsertNumberMut({});
-    setVisible(false);
+    cannelInsertNumberMut();
+    setVisible(true);
     setValidate([]);
   }
   const containerStyle = { backgroundColor: 'white', padding: 20 };
@@ -73,10 +61,19 @@ const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut }) => {
       setValidate([...validate, 'Number phone not is incorrect format '])
     }
     
-    // numberPhone.number = "";
-    // console.log("uuidv4()", uuidv4());
   }
-
+  const saveAll = () => {
+    if(numbers.length === 0) {
+      setValidate([...validate, 'You are need have number phone save ?']);
+      setNumbers([]);
+      onInsertNumberMut([]);
+      setVisible(true);
+      
+    }
+    onInsertNumberMut(numbers);
+    setNumbers([]);
+    return numberPhone;
+  }
 
   return (
     <Provider>
@@ -96,11 +93,11 @@ const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut }) => {
           <View> 
             <Card>
               <Card.Content style = {{ height: "auto"}}>
-              {/* <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
                 <Button
                   // icon="camera"
                   mode="contained"
-                  onPress={hideModal}
+                  onPress={saveAll}
                   style={{ marginTop: 10 }}
                   contentStyle = {{
                     // width:40,
@@ -156,7 +153,7 @@ const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut }) => {
                 >
                   Cancel
                 </Button>
-              </View> */}
+              </View>
                 <Title style = {{ fontSize: 13}}>List number can insert</Title>
                 {
                   numbers.length > 0 && numbers.map((num, index) => 
