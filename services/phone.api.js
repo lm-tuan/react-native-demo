@@ -32,6 +32,12 @@ export const insertMultipleNumber = async (payload) => {
     return response;
 };
 
+// ids is list id number.
+export const deleteAllNumbers = async (payload) => {
+    const response = await Service.deleteAll(`${URL_PHONE}`,payload, (res => res));
+    return response;
+};
+
 
 
 

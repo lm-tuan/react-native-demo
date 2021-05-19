@@ -9,7 +9,7 @@ import DataTableComponent from './components/dataTable';
 import FormAdd from './components/formAdd';
 import FormEditComponent from './components/formEdit';
 import fillterNumberPhone from './helper/fillterNumberPhone';
-import { getAllNumbers, getNumberById, insertNumber, editNumberById, deleteNumberById, insertMultipleNumber } from './services/phone.api';
+import { getAllNumbers, getNumberById, insertNumber, editNumberById, deleteNumberById, insertMultipleNumber, deleteAllNumbers } from './services/phone.api';
 import FormAddMultiple from './components/formAddMultiple  ';
 import { createIconSetFromFontello } from "react-native-vector-icons";
 
@@ -20,6 +20,7 @@ const App = () => {
     const [searchQuery, setSearchQuery] = React.useState('');
     const [numerPhones, setNumerPhones] = React.useState([]);
     const [loading, setLoading] = React.useState([false]);
+    const [dataChecked, setDataChecked] = React.useState([]);
     const [numberPhone, setNumberPhone] = React.useState({
         id: "",
         number: "",
@@ -49,7 +50,7 @@ const App = () => {
                 }
             }, 1000);
         } catch (error) {
-            console.log('err', err);
+            console.log('error', error);
         }
     };
 
@@ -72,7 +73,7 @@ const App = () => {
                     }
                 }, 1000)
             } catch (error) {
-                console.log('err', err);
+                console.log('error', error);
             }
         }
     }
@@ -99,7 +100,7 @@ const App = () => {
                 }
             }, 1000)
         } catch (error) {
-            console.log('err', err);
+            console.log('error', error);
         }
     }
 
@@ -119,7 +120,7 @@ const App = () => {
                     }
                 }, 1000);
             } catch (error) {
-                console.log('err', err);
+                console.log('error', error);
             }
             
         }
@@ -136,7 +137,7 @@ const App = () => {
                 }
             }, 100)
         } catch (error) {
-            console.log('err', err);
+            console.log('error', error);
             setLoading(false)
         }
     }
@@ -157,7 +158,7 @@ const App = () => {
                     }
                 }, 1000)
             } catch (error) {
-                console.log(err);
+                console.log(error);
                 setLoading(false);
                 setIsCreate(false);
             }
@@ -202,8 +203,24 @@ const App = () => {
     }
 
     // remove online
-    const onRemoveAll = () => {
-        console.log('remote all');
+    const onRemoveAll =  async () => {
+        // try {
+        //     setLoading(true)
+        //     const response = await deleteAllNumbers(dataChecked);
+        //     setTimeout(() => {
+        //         if (response.length > 0) {
+        //             callApiList();
+        //             setLoading(false)
+        //         }
+        //     }, 1000)
+        // } catch (error) {
+        //     console.log('error', error);
+        //     setLoading(false)
+        // }
+    }
+
+    const getDataChecked = (nums) => {
+        setDataChecked(nums)
     }
     return (
 
@@ -298,6 +315,7 @@ const App = () => {
                         onDeleteParent={id => onDeleteParent(id)}
                         onEdit={(num, statusEdit, mode) => onEdit(num, statusEdit, mode)}
                         isEdit={isEdit}
+                        getDataChecked = {(nums) => getDataChecked(nums) }
                     />
                     {/* <ActivityIndicator 
             animating={loading} 

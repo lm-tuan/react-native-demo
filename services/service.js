@@ -47,15 +47,6 @@ class Service {
   }
 
   async postMultiple(path, payload, callback) {
-    // await payload.forEach(num => {
-    //   this.service
-    //     .request({
-    //       method: 'POST',
-    //       url: path,
-    //       responseType: 'json',
-    //       data: num,
-    //     })
-    // });
     const lst = [];
     await payload.forEach(num => {
       lst.push(
@@ -70,8 +61,21 @@ class Service {
     });
   console.log(lst);
   return Promise.all(lst).then(response => callback(response))
-    
-    
+      
+  }
+  async deleteAll(path, payload, callback) {
+    const lst = [];
+    await payload.forEach(num => {
+      lst.push(
+        this.service
+        .request({
+          method: 'DELETE',
+          url: `${path}/${num.id}`,
+          responseType: 'json',
+        })
+      )
+    });
+  return Promise.all(lst).then(response => callback(response))
   }
 
 }

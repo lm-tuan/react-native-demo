@@ -38,6 +38,8 @@ const DataTableComponent = (props) => {
       setChecked(false);
     }
     // setNumbers(numbers);
+    const mumberChecks = numbers.filter(num => num.is_delete === true);
+    props.getDataChecked(mumberChecks);
   }, [numbers])
 
   const onPressDetailById = (num) => {
@@ -60,22 +62,12 @@ const DataTableComponent = (props) => {
 
   const checkAll = () => {
     let nums = numbers;
-    // check have delete
-    // let count = 0;
-    // nums.forEach((num) => {
-    //   if(num.is_delete){
-    //     count ++;
-    //   }
-    // })
-    // if(count === 0 ){
-    //   console.log('count');
-    //   setChecked(false);
-    // }
     setChecked(!checked);
     
     nums.forEach((num) => {
       num.is_delete = !checked
     })
+    // onRemoveAll();
     setNumbers([...nums])
   }
 
