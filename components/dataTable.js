@@ -26,7 +26,19 @@ const DataTableComponent = (props) => {
     props.onDeleteParent(id);
   }
   React.useEffect(() => {
-  }, [props.isDelete])
+    let nums = numbers;
+    // check have delete
+    let count = 0;
+    nums.forEach((num) => {
+      if(num.is_delete){
+        count ++;
+      }
+    })
+    if(count === 0 ){
+      setChecked(false);
+    }
+    // setNumbers(numbers);
+  }, [numbers])
 
   const onPressDetailById = (num) => {
     props.onEdit(num, DETAIL);
@@ -34,23 +46,53 @@ const DataTableComponent = (props) => {
   const onPressEditById = (num) => {
     props.onEdit(num, EDIT);
   }
+  const onCheckDelete = (id) => {
+    let index = 0;
+     numbers.forEach((num, idex) => {
+      if(num.id === id) {
+        index = idex;
+      }
+    })
+    let nums = numbers;
+    nums[index].is_delete = !nums[index].is_delete;
+    setNumbers([...nums]);
+  }
+
+  const checkAll = () => {
+    let nums = numbers;
+    // check have delete
+    // let count = 0;
+    // nums.forEach((num) => {
+    //   if(num.is_delete){
+    //     count ++;
+    //   }
+    // })
+    // if(count === 0 ){
+    //   console.log('count');
+    //   setChecked(false);
+    // }
+    setChecked(!checked);
+    
+    nums.forEach((num) => {
+      num.is_delete = !checked
+    })
+    setNumbers([...nums])
+  }
 
 
-  const { numerPhones } = props;
   return (
     <DataTable>
       <DataTable.Header>
         <DataTable.Title style ={{
           // backgroundColor:'red',
-          marginTop:-5,
+          marginTop:5,
           justifyContent:'center',
           marginLeft:2
         }}> 
           <Checkbox
+            color = { Colors.blue800 }
             status={checked ? 'checked' : 'unchecked'}
-            onPress={() => {
-              setChecked(!checked);
-            }}
+            onPress={checkAll}
           />
         </DataTable.Title>
         <DataTable.Title>No.</DataTable.Title>
@@ -72,10 +114,10 @@ const DataTableComponent = (props) => {
         >
           <DataTable.Cell>
             <Checkbox
-              status={checked ? 'checked' : 'unchecked'}
-              onPress={() => {
-                setChecked(!checked);
-              }}
+              testID = {num.id}
+              status={num.is_delete ? 'checked' : 'unchecked'}
+              onPress={() => onCheckDelete(num.id)}
+              color = { Colors.blue800}
             />
           </DataTable.Cell>
           <DataTable.Cell>{num.id}</DataTable.Cell>

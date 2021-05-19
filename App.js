@@ -200,6 +200,11 @@ const App = () => {
             setLoading(false);
         }, 1000)
     }
+
+    // remove online
+    const onRemoveAll = () => {
+        console.log('remote all');
+    }
     return (
 
         <View style={[styles.container, {
@@ -260,9 +265,9 @@ const App = () => {
                     />
                     <IconButton
                         icon="delete"
-                        color={Colors.red500}
-                        size={20}
-                        onPress={() => console.log('Pressed')}
+                        color={Colors.orange700}
+                        size={25}
+                        onPress={ onRemoveAll }
                     />
                     <IconButton
                         icon={require('./assets/images/insert.png')}
