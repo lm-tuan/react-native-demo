@@ -9,7 +9,7 @@ import DataTableComponent from './components/dataTable';
 import FormAdd from './components/formAdd';
 import FormEditComponent from './components/formEdit';
 import fillterNumberPhone from './helper/fillterNumberPhone';
-import { getAllNumbers, getNumberById, insertNumber, editNumberById, deleteNumberById } from './services/phone.api';
+import { getAllNumbers, getNumberById, insertNumber, editNumberById, deleteNumberById, insertMultipleNumber } from './services/phone.api';
 import FormAddMultiple from './components/formAddMultiple  ';
 
 const App = () => {

@@ -46,6 +46,34 @@ class Service {
     return this.service.delete(path).then((response) => callback(response));
   }
 
+  async postMultiple(path, payload, callback) {
+    // await payload.forEach(num => {
+    //   this.service
+    //     .request({
+    //       method: 'POST',
+    //       url: path,
+    //       responseType: 'json',
+    //       data: num,
+    //     })
+    // });
+    const lst = [];
+    await payload.forEach(num => {
+      lst.push(
+        this.service
+        .request({
+          method: 'POST',
+          url: path,
+          responseType: 'json',
+          data: num,
+        })
+      )
+    });
+  console.log(lst);
+  return Promise.all(lst).then(response => callback(response))
+    
+    
+  }
+
 }
 
 export default new Service();

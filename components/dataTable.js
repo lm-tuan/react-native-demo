@@ -48,7 +48,7 @@ const DataTableComponent = (props) => {
       {
         numbers.length > 0 &&
         numbers.map((num, index) =>
-        (<DataTable.Row key={num.id} style={{
+        (<DataTable.Row key={index + 3} style={{
           flexDirection: 'row',
           justifyContent: 'center'
         }}

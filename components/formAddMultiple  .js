@@ -96,7 +96,7 @@ const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut }) => {
           <View> 
             <Card>
               <Card.Content style = {{ height: "auto"}}>
-              <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+              {/* <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
                 <Button
                   // icon="camera"
                   mode="contained"
@@ -120,6 +120,7 @@ const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut }) => {
                     marginRight:5,
                     width:75,
                     paddingLeft:20,
+                    fontWeight:"bold"
                   }}
                 >
                   Save all
@@ -155,11 +156,11 @@ const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut }) => {
                 >
                   Cancel
                 </Button>
-              </View>
+              </View> */}
                 <Title style = {{ fontSize: 13}}>List number can insert</Title>
                 {
                   numbers.length > 0 && numbers.map((num, index) => 
-                    <View key = {index} style = {{ flexDirection:'row', justifyContent:'space-between' }}>
+                    <View key = {index + 1} style = {{ flexDirection:'row', justifyContent:'space-between' }}>
                       <Text 
                       style = {{ marginTop: 10, fontFamily:'Lato-Black'}}>
                         {num.number}
@@ -208,55 +209,6 @@ const FormAddMultiple   = ({ isCreateMut, onInsertNumberMut }) => {
               </Card.Content>
             </Card>
           </View>
-          {/* <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-            <Button
-              // icon="camera"
-              mode="contained"
-              onPress={hideModal}
-              style={{ marginTop: 10 }}
-              contentStyle = {{
-                // width:40,
-                height:30,
-                fontSize:10,
-                // marginLeft:50,
-                // flexDirection: 'row-reverse',
-                fontSize:12,
-                width:90,
-                marginTop:3
-              
-               }}
-               labelStyle = {{
-                fontSize:12,
-                // backgroundColor:'red',
-                height:20,
-                marginRight:5
-               }}
-            >
-              Save all
-            </Button>
-            <Button
-              // icon="camera"
-              mode="contained"
-              onPress={cancelForm}
-              style={{ marginTop: 10, marginLeft: 10 }}
-              contentStyle = {{
-                // width:40,
-                height:30,
-                fontSize:10,
-                width:90,
-                // marginLeft:50,
-                // flexDirection: 'row-reverse',
-                marginTop:3
-              
-               }}
-               labelStyle = {{
-                fontSize:12,
-                height:20,
-               }}
-            >
-              Cannel
-            </Button>
-          </View> */}
         </Modal>
       </Portal>
     </Provider>
